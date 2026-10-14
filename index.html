@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Listas de Espera Quirúrgica · Asturias</title>
+<meta name="description" content="Dashboard interactivo de las listas de espera quirúrgica de Astursalud: evolución mensual por área sanitaria, especialidad y patología." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏥</text></svg>" />
+<link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body class="cargando">
+
+<header class="cabecera">
+  <div class="cabecera-titulo">
+    <h1>Listas de Espera Quirúrgica <span>· Asturias</span></h1>
+    <p class="subtitulo">
+      Explora la espera quirúrgica por <strong>periodo</strong>, <strong>área sanitaria</strong>,
+      <strong>especialidad</strong> y <strong>patología</strong>.
+      Fuente: <a href="https://www.astursalud.es/listaesperaquirurgica" target="_blank" rel="noopener">Astursalud</a>.
+    </p>
+  </div>
+  <div class="cabecera-acciones">
+    <span id="badgeDemo" class="badge badge-demo" hidden>Datos de demostración</span>
+    <button id="btnActualizar" class="btn btn-primario" type="button">↻ Actualizar datos</button>
+    <button id="btnExportar" class="btn" type="button">⭳ Exportar CSV</button>
+    <a id="btnDescargaZip" class="btn" href="asturleq-dashboard.zip" download hidden>⭳ Proyecto (.zip)</a>
+  </div>
+</header>
+
+<p id="estado" class="estado" role="status" aria-live="polite">Cargando…</p>
+
+<div id="avisoVacio" class="aviso" hidden>
+  No hay datos almacenados todavía. Ejecuta el scraper (<code>cd scraper &amp;&amp; npm install &amp;&amp; npm run scrape</code>)
+  y pulsa «Actualizar datos». Mientras tanto puedes generar el dataset de demostración con
+  <code>node scripts/gen-demo-data.mjs</code>.
+</div>
+
+<main>
+  <section class="panel filtros" aria-label="Filtros">
+    <div class="filtro-grupo">
+      <div class="filtro-titulo">Tipo de información</div>
+      <div id="tipoInfo" class="segmentado" role="tablist">
+        <button type="button" data-tipo="especialidad" class="activo" role="tab">Por especialidades</button>
+        <button type="button" data-tipo="patologia" role="tab">Por patologías</button>
+      </div>
+    </div>
+
+    <div class="filtro-grupo">
+      <div class="filtro-titulo">Año <button id="btnTodosAnios" class="mini" type="button">todos</button></div>
+      <div id="filtroAnios" class="chips"></div>
+    </div>
+
+    <div class="filtro-grupo">
+      <div class="filtro-titulo">Mes <button id="btnTodosMeses" class="mini" type="button">todos</button></div>
+      <div id="filtroMeses" class="chips"></div>
+    </div>
+
+    <div class="filtro-grupo">
+      <div class="filtro-titulo">
+        Área sanitaria / hospital
+        <span>
+          <button id="btnTodasAmbitos" class="mini" type="button">todas</button>
+          <button id="btnNingunAmbito" class="mini" type="button">ninguna</button>
+        </span>
+      </div>
+      <div id="filtroAmbitos" class="chips chips-wrap"></div>
+    </div>
+
+    <div class="filtro-grupo filtro-categorias">
+      <div class="filtro-titulo">
+        Especialidad / patología
+        <span id="contadorCategorias" class="contador"></span>
+      </div>
+      <div class="cat-acciones">
+        <input id="buscarCategoria" type="search" placeholder="Buscar…" aria-label="Buscar especialidad o patología" />
+        <button id="btnTodasCategorias" class="mini" type="button">todas</button>
+        <button id="btnNingunaCategoria" class="mini" type="button">ninguna</button>
+      </div>
+      <div id="listaCategorias" class="lista-categorias"></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="filtro-grupo filtro-metrica">
+      <label for="selMetrica" class="filtro-titulo">Métrica a analizar</label>
+      <select id="selMetrica"></select>
+    </div>
+    <div id="kpis" class="kpis"></div>
+  </section>
+
+  <section id="charts" class="charts">
+    <div class="panel"><div class="canvas-wrap"><canvas id="chartEvolucion"></canvas></div></div>
+    <div class="panel"><div class="canvas-wrap"><canvas id="chartAreas"></canvas></div></div>
+    <div class="panel"><div class="canvas-wrap"><canvas id="chartCategorias"></canvas></div></div>
+  </section>
+
+  <section class="panel">
+    <div class="tabla-cabecera">
+      <h2>Detalle de registros</h2>
+      <input id="buscarTabla" type="search" placeholder="Buscar en la tabla…" aria-label="Buscar en la tabla" />
+    </div>
+    <div id="tablaCont" class="tabla-cont"></div>
+    <div class="paginacion">
+      <button id="paginaAnt" class="btn" type="button">‹ Anterior</button>
+      <span id="paginaInfo"></span>
+      <button id="paginaSig" class="btn" type="button">Siguiente ›</button>
+    </div>
+  </section>
+</main>
+
+<footer class="pie">
+  <p>
+    Dashboard de datos abiertos. Los datos oficiales son publicados por Astursalud (SESPA) y se almacenan
+    localmente en tu navegador (IndexedDB). Esta herramienta no es un sitio oficial.
+  </p>
+  <p class="pie-links">
+    <a href="https://www.astursalud.es/listaesperaquirurgica" target="_blank" rel="noopener">Astursalud · Lista de espera quirúrgica</a>
+    · <a href="README.md">Cómo se obtienen los datos</a>
+  </p>
+</footer>
+
+<script src="assets/vendor/chart.umd.min.js" defer></script>
+<script type="module" src="assets/js/app.js"></script>
+</body>
+</html>

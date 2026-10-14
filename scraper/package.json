@@ -1,0 +1,22 @@
+{
+  "name": "astursalud-lista-espera-scraper",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Scraper (Playwright) de las listas de espera quirúrgica de Astursalud",
+  "type": "module",
+  "bin": {
+    "astursalud-scrape": "scrape.mjs"
+  },
+  "scripts": {
+    "scrape": "node scrape.mjs",
+    "scrape:headful": "node scrape.mjs --headful",
+    "probe": "node scrape.mjs --probe",
+    "install:browser": "playwright install chromium"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "playwright": "^1.47.0"
+  }
+}

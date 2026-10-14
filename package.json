@@ -1,0 +1,19 @@
+{
+  "name": "astursalud-lista-espera-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Dashboard estático (HTML/CSS/JS) de las listas de espera quirúrgica de Asturias, con datos en IndexedDB.",
+  "type": "module",
+  "scripts": {
+    "serve": "node scripts/serve.mjs",
+    "demo": "node scripts/gen-demo-data.mjs",
+    "scrape": "node scraper/scrape.mjs",
+    "scrape:probe": "node scraper/scrape.mjs --probe",
+    "test:dashboard": "node scripts/smoke-test.mjs",
+    "test:scraper": "node scripts/scraper-e2e-test.mjs",
+    "test": "node scripts/smoke-test.mjs && node scripts/scraper-e2e-test.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
