@@ -1,0 +1,21 @@
+# Dependencias
+node_modules/
+scraper/node_modules/
+
+# Estado del scraper
+scraper/.state.json
+
+# Sistema / editor
+.DS_Store
+Thumbs.db
+*.log
+.env
+
+# Artefactos de prueba
+smoke-screenshot.png
+
+# Paquete de distribución generado
+asturleq-dashboard.zip
+
+# Caché de dependencias del workspace cloud
+.deps/
